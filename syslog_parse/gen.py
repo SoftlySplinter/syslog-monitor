@@ -5,7 +5,6 @@ def syslogtime():
   return time.strftime("%b  %d %H:%M:%S", time.gmtime())
 
 def gen(fn, lines):
-  print fn
   with open(fn, "w") as file:
     for i in xrange(lines):
       fac = random.randint(0,23)
