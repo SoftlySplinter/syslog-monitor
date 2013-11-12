@@ -3,28 +3,35 @@ syslog-monitor
 
 Python syslog Monitor for DataSift Graduate Application
 
+Installing
+==========
+
+To install using setuptools (pip/easy\_install) run:
+
+```sh
+python ./setup.py install
+```
+
 
 Running
 =======
 
-To run the tool to produce syslog entires randomly run:
+To run the log file generator run `syslog-gen [lines] file`.
 
-```sh
-python syslog_test/__init__.py [lines] file
-```
+To run the log file analyser run `syslog-parse file`.
 
-The file will default to `gen.log` if no file is specified.
+To run the daemon run `./syslog-analyserd start`.
 
+To stop the daemon run `./syslog-analyserd stop`.
 
-To run the tool to parse the syslog file, run:
-
-```sh
-python syslog_parse/__init__.py file
-```
-
-This will return the results in JSON format to stdout.
 
 Dependencies
 ============
 
-All tools use Python 2.7.3 and libraries which come as standard.
+This tool requires python with the following libraries:
+
+* easy_install or pip
+* setuptools
+* flask
+* gunicorn
+
