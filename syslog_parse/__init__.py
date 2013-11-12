@@ -15,7 +15,8 @@ class SyslogParser:
         # regex to match the standard syslog format. Will match the priority.
         matches = re.match(r"\<(\d\d?\d?)\>\s*...\s+\d\d?\s+\d\d:\d\d:\d\d\s+.+\s+.+:\s+.+", line)
         if(matches == None):
-          print "Not a syslog format"
+          import sys
+          sys.stderr.write("Not a syslog format\n")
         else:
           pri = int(matches.group(1))
           sev = pri % 8
