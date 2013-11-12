@@ -1,0 +1,10 @@
+<37>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 4, sev: 5
+<89>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 11, sev: 1
+<47>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 5, sev: 7
+<4>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 0, sev: 4
+<110>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 13, sev: 6
+<34>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 4, sev: 2
+<127>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 15, sev: 7
+<65>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 8, sev: 1
+<144>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 18, sev: 0
+<29>Nov  12 17:26:53 localhost syslog_test: Log message from fac: 3, sev: 5

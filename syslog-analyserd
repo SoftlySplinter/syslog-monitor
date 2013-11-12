@@ -1,0 +1,36 @@
+PID=syslog_parse.pid
+
+case "$1" in
+start)
+  echo "Starting syslog parse daemon"
+  gunicorn --daemon --log-syslog --pid syslog_parse.pid --workers 4 --bind 127.0.0.1:8080 syslog_parse:app
+;;
+stop)
+  echo "Stopping syslog parse daemon"
+  kill `cat ${PID}`
+  rm ${PID}
+;;
+restart)
+  if [ -f ${PID} ]
+  then
+    echo "Restarting syslog parse daemon"
+    $0 stop
+    $0 start
+  else
+    echo "syslog parse daemon not started"
+    exit 255
+  fi
+;;
+status)
+   if [ -f ${PID} ]
+   then
+     echo "syslog parse daemon running"
+   else
+     echo "syslog parse daemon stopped"
+   fi
+;;
+*)
+  echo "Usage: $0 {start|stop|restart|status}"
+  exit 1
+esac
+exit 0
