@@ -1,4 +1,5 @@
 import re
+import json
 
 class SyslogParser:
   def __init__(self, filename):
@@ -21,7 +22,7 @@ class SyslogParser:
           # Uncomment the line below for details on facilities.
           # fac = pri - sev / 8
           res[self.syslogmap[sev]] += 1
-    print res
+    print json.dumps(res, indent=2)
 
 if __name__ == "__main__":
   import sys
