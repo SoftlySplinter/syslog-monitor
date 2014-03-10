@@ -29,7 +29,7 @@ class LogWatcher(object):
           # Priority = facility * 8 + severity
           pri = int(matches.group(1))
           sev = pri % 8
-          statsd_callback(sev, matches.group(4))
+          statsd_callback(matches.group(4), sev)
       self.pos = file.tell()
 
   def set_processes(self, processes):

@@ -1,6 +1,7 @@
 import json
 from threading import Thread
 from flask import Flask, request
+import statsd
 
 from syslog_parse.watcher import LogWatcher
 
@@ -10,6 +11,7 @@ class Daemon(Thread):
     self.logs = []
     self.processes = []
     self.running = False
+    self.statsd = statsd.StatsClient('graphite.qa', 8123)
 
   def start(self):
     if self.running:
@@ -26,6 +28,7 @@ class Daemon(Thread):
           print e
 
   def do_statsd(self, process, sev):
+    self.statsd.incr("syslogmonitor.{}.{}".format(process, sev))
     print "{0} - {1}".format(process, sev)
 
   def stop(self):
