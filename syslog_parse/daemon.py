@@ -6,18 +6,22 @@ import statsd
 from syslog_parse.watcher import LogWatcher
 
 class Daemon(Thread):
-  def __init__(self):
+  def __init__(self, logs, ps):
     super(Daemon, self).__init__()
-    self.logs = []
-    self.processes = []
+    self.logs = logs
+    self.processes = ps
     self.running = False
     self.statsd = statsd.StatsClient('graphite.qa', 8123)
 
   def start(self):
     if self.running:
-      return
+      return False
     self.running = True
-    super(Daemon, self).start()
+    try:
+      super(Daemon, self).start()
+    except Exception as e:
+      print e
+    return True
 
   def run(self):
     while self.running:
@@ -28,13 +32,18 @@ class Daemon(Thread):
           print e
 
   def do_statsd(self, process, sev):
-    self.statsd.incr("syslogmonitor.{}.{}".format(process, sev))
-    print "{0} - {1}".format(process, sev)
+    if process in self.processes:
+      self.statsd.incr("syslogmonitor.{}.{}".format(process, sev))
+      print "{0} - {1}".format(process, sev)
+    else:
+      print "{0} - {1} not logged".format(process, sev)
+
 
   def stop(self):
     if not self.running:
-      return
+      return False
     self.running = False
+    return True
 
   def add_log(self, log):
     self.logs.append(LogWatcher(log, self.processes))
@@ -53,7 +62,7 @@ class Daemon(Thread):
       watcher.set_processes(self.processes)
 
 app = Flask(__name__)
-daemon = Daemon()
+daemon = Daemon([], [])
 
 @app.route("/", methods=["POST"])
 def post_run():
@@ -65,24 +74,40 @@ def post_run():
 
 @app.route("/start", methods=["POST"])
 def start_daemon():
-  daemon.start()
-  return ("SysWatch started", 200)
+  if daemon.isAlive():
+    return ("SysWatch already started", 400)
+
+  if daemon.start():
+    return ("SysWatch started", 200)
+  else:
+    return ("SysWatch already started", 400)
 
 @app.route("/stop", methods=["POST"])
 def stop_daemon():
-  daemon.stop()
-  return ("SysWatch stopped", 200)
+  if daemon.stop():
+    return ("SysWatch stopped", 200)
+  else:
+    return ("SysWatch not started", 400)
 
 @app.route("/log", methods=["POST"])
 def add_log():
   logfile = request.values["logfile"]
   daemon.add_log(logfile)
-  return ("added", 200)
+  return ("", 200)
 
 @app.route("/log/<id>", methods=["DELETE"])
-def del_log():
-  if "logfile" not in requests.values:
-    return (json.dumps({"error": "No logfile specified"}), 400)
-  logfile = request.values["logfile"]
-  daemon.del_log(logfile)
+def del_log(id):
+  daemon.del_log(id)
   return ("", 200)
+
+@app.route("/ps", methods=["POST"])
+def add_ps():
+  process = request.values["process"]
+  daemon.add_ps(process)
+  return ("", 200)
+
+@app.route("/ps/<id>", methods=["DELETE"])
+def del_ps(id):
+  daemon.del_ps(id)
+  return ("", 200)
+
