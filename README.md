@@ -3,6 +3,14 @@ syslog-monitor
 
 Python syslog Monitor for DataSift Graduate Application
 
+Dependencies
+============
+
+* Python
+* Python setuptools
+* Flask
+* Python statsd
+
 Installing
 ==========
 
@@ -30,8 +38,7 @@ Dependencies
 
 This tool requires python with the following libraries:
 
-* easy_install or pip
-* setuptools
-* flask
-* gunicorn
+* python-setuptools
+* flask (through setuptools)
+* gunicorn (through setuptools)
 
