@@ -28,5 +28,6 @@ setup(
     install_requires=[
         'flask',
         'gunicorn',
+        'statsd',
     ],
 )
