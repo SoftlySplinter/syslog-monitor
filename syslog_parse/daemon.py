@@ -33,7 +33,7 @@ class Daemon(Thread):
 
   def do_statsd(self, process, sev):
     if process in self.processes:
-      self.statsd.incr("syslogmonitor.{}.{}".format(process, sev))
+      self.statsd.incr("syslogmonitor.{0}.{1}".format(process, sev))
       print "{0} - {1}".format(process, sev)
     else:
       print "{0} - {1} not logged".format(process, sev)

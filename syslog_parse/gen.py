@@ -5,12 +5,12 @@ def syslogtime():
   return time.strftime("%b  %d %H:%M:%S", time.gmtime())
 
 def gen(fn, lines):
-  with open(fn, "w") as file:
+  with open(fn, "a") as file:
     for i in xrange(lines):
       fac = random.randint(0,23)
       sev = random.randint(0,7)
       pri = fac * 8 + sev
-      file.write("<{}>{} localhost syslog_test: Log message from fac: {}, sev: {}\n".format(pri, syslogtime(), fac, sev))
+      file.write("<{0}>{1} localhost syslog_test: Log message from fac: {2}, sev: {3}\n".format(pri, syslogtime(), fac, sev))
 
 def main():
   import sys

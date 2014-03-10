@@ -3,7 +3,7 @@ from datetime import datetime
 
 class LogWatcher(object):
   def __init__(self, log, processes):
-    print "Watching log {}".format(log)
+    print "Watching log {0}".format(log)
     self.log = log
     self.pos = 0
     self.processes = processes
