@@ -22,6 +22,12 @@ python ./setup.py install
 ```
 
 
+Syslog Format
+=============
+
+If it is possible to change the rsyslog logging format (in /etc/rsyslog.conf) I would suggest a format similar to the following be used: `$template RFC3164fmt,"<%PRI%>%TIMESTAMP% %HOSTNAME% %syslogtag%%msg%"`.
+
+
 Running
 =======
 
