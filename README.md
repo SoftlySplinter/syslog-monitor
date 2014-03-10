@@ -10,6 +10,7 @@ Dependencies
 * Python setuptools
 * Flask
 * Python statsd
+* Gunicorn
 
 Installing
 ==========
