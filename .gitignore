@@ -38,3 +38,5 @@ nosetests.xml
 
 .vagrant
 Vagrantfile
+
+*.swo

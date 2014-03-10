@@ -22,8 +22,8 @@ class Daemon(Thread):
       for watcher in self.logs:
         try:
           watcher.do_parse(self.do_statsd)
-        except Exception:
-          print "error"
+        except Exception as e:
+          print e
 
   def do_statsd(self, process, sev):
     print "{0} - {1}".format(process, sev)
@@ -40,14 +40,18 @@ class Daemon(Thread):
     self.logs.remove(log)
 
   def add_ps(self, ps):
-    self.logs.append(ps)
+    self.processes.append(ps)
+    for watcher in self.logs:
+      watcher.set_processes(self.processes)
 
   def del_ps(self, ps):
-    self.processes.remove(log)
+    self.processes.remove(ps)
+    for watcher in self.logs:
+      watcher.set_processes(self.processes)
 
 app = Flask(__name__)
 daemon = Daemon()
-  
+
 @app.route("/", methods=["POST"])
 def post_run():
   logfile = request.values["logfile"]
