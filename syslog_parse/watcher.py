@@ -11,7 +11,7 @@ class LogWatcher(object):
     """Analyses a logfile and counts the number of each severity exists.
        This information is then put into JSON format."""
     # format: <sf> timestamp machine prog: msg
-    with open(self.log) as file:
+    with open(self.log, "r+") as file:
       file.seek(self.pos)
       for line in file:
         print line

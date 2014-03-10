@@ -9,8 +9,11 @@ class Daemon(Thread):
     super(Daemon, self).__init__()
     self.logs = []
     self.processes = []
+    self.running = False
 
   def start(self):
+    if self.running:
+      return
     self.running = True
     super(Daemon, self).start()
 
@@ -26,7 +29,8 @@ class Daemon(Thread):
     print "{0} - {1}".format(process, sev)
 
   def stop(self):
-    print "Stopping..."
+    if not self.running:
+      return
     self.running = False
 
   def add_log(self, log):
